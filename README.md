@@ -24,10 +24,6 @@
      # 然后在浏览器打开 http://localhost:8000/index.html
      ```
 
-## 演示
-（可在此处放置截图或演示 GIF，便于用户直观了解界面）
-- 示例：打开 `index.html` 后即可输入表达式并查看结果。
-
 ## 支持的浏览器
 - 现代浏览器：Chrome、Firefox、Edge、Safari（较旧浏览器在某些 ES/HTML 特性上可能有差异）
 
