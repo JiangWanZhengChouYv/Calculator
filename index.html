@@ -25,10 +25,14 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             padding: 20px;
-            width: 320px;
+            width: 600px;
             backdrop-filter: blur(10px);
             display: flex;
-            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .main {
+            flex: 1;
         }
         
         .display {
@@ -57,9 +61,9 @@
             background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 15px;
-            max-height: 200px;
+            width: 200px;
+            max-height: 400px;
             overflow-y: auto;
-            display: none;
         }
         
         .history h3 {
@@ -135,11 +139,15 @@
         }
         
         /* 响应式设计 */
-        @media (max-width: 360px) {
+        @media (max-width: 768px) {
             .calculator {
                 width: 100%;
-                margin: 20px;
-                padding: 15px;
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .history {
+                display: none;
             }
             
             .display {
@@ -155,31 +163,33 @@
 </head>
 <body>
     <div class="calculator">
-        <div class="display" id="display">0</div>
-        <div class="buttons">
-            <button class="clear" onclick="clearDisplay()">C</button>
-            <button class="delete" onclick="deleteLast()">DEL</button>
-            <button onclick="toggleHistory()">历史</button>
-            <button class="operator" onclick="appendOperator('/')">÷</button>
-            <button class="operator" onclick="appendOperator('*')">×</button>
-            
-            <button onclick="appendNumber('7')">7</button>
-            <button onclick="appendNumber('8')">8</button>
-            <button onclick="appendNumber('9')">9</button>
-            <button class="operator" onclick="appendOperator('-')">−</button>
-            
-            <button onclick="appendNumber('4')">4</button>
-            <button onclick="appendNumber('5')">5</button>
-            <button onclick="appendNumber('6')">6</button>
-            <button class="operator" onclick="appendOperator('+')">+</button>
-            
-            <button onclick="appendNumber('1')">1</button>
-            <button onclick="appendNumber('2')">2</button>
-            <button onclick="appendNumber('3')">3</button>
-            <button class="equal" onclick="calculate()">=</button>
-            
-            <button class="zero" onclick="appendNumber('0')">0</button>
-            <button onclick="appendDecimal()">.</button>
+        <div class="main">
+            <div class="display" id="display">0</div>
+            <div class="buttons">
+                <button class="clear" onclick="clearDisplay()">C</button>
+                <button class="delete" onclick="deleteLast()">DEL</button>
+                <button onclick="toggleHistory()">历史</button>
+                <button class="operator" onclick="appendOperator('/')">÷</button>
+                <button class="operator" onclick="appendOperator('*')">×</button>
+                
+                <button onclick="appendNumber('7')">7</button>
+                <button onclick="appendNumber('8')">8</button>
+                <button onclick="appendNumber('9')">9</button>
+                <button class="operator" onclick="appendOperator('-')">−</button>
+                
+                <button onclick="appendNumber('4')">4</button>
+                <button onclick="appendNumber('5')">5</button>
+                <button onclick="appendNumber('6')">6</button>
+                <button class="operator" onclick="appendOperator('+')">+</button>
+                
+                <button onclick="appendNumber('1')">1</button>
+                <button onclick="appendNumber('2')">2</button>
+                <button onclick="appendNumber('3')">3</button>
+                <button class="equal" onclick="calculate()">=</button>
+                
+                <button class="zero" onclick="appendNumber('0')">0</button>
+                <button onclick="appendDecimal()">.</button>
+            </div>
         </div>
         <div class="history" id="history">
             <h3>计算历史</h3>
@@ -232,7 +242,7 @@
         
         // 切换历史显示
         function toggleHistory() {
-            if (historyDiv.style.display === 'none' || historyDiv.style.display === '') {
+            if (historyDiv.style.display === 'none') {
                 historyDiv.style.display = 'block';
             } else {
                 historyDiv.style.display = 'none';
