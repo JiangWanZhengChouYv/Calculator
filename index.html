@@ -212,6 +212,7 @@
         </div>
         <div class="history" id="history">
             <h3>计算历史</h3>
+            <button onclick="clearHistory()" style="padding: 8px 12px; font-size: 0.9rem; margin-bottom: 10px; background: #e74c3c; color: white;">清除历史</button>
             <div id="historyList"></div>
         </div>
     </div>
@@ -281,6 +282,15 @@
         function changeBackground() {
             currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
             document.body.style.background = backgrounds[currentBackgroundIndex];
+        }
+        
+        // 清除历史记录
+        function clearHistory() {
+            if (confirm('确定要清除所有历史记录吗？')) {
+                history = [];
+                localStorage.removeItem('calculatorHistory');
+                updateHistoryDisplay();
+            }
         }
         
         // 初始化
