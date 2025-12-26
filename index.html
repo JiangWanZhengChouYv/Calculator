@@ -19,6 +19,8 @@
             min-height: 100vh;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: background 0.5s ease;
+            overflow-x: hidden;
+            padding: 10px;
         }
         
         .calculator {
@@ -26,7 +28,8 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             padding: 20px;
-            width: 600px;
+            width: 100%;
+            max-width: 600px;
             backdrop-filter: blur(10px);
             display: flex;
             gap: 20px;
@@ -34,6 +37,7 @@
         
         .main {
             flex: 1;
+            min-width: 0;
         }
         
         .display {
@@ -61,10 +65,13 @@
         .row {
             display: flex;
             gap: 12px;
+            flex-wrap: wrap;
         }
         
         .row button {
             flex: 1;
+            min-width: calc(25% - 12px);
+            max-width: calc(25% - 12px);
         }
         
         .history {
@@ -156,6 +163,7 @@
                 width: 100%;
                 flex-direction: column;
                 gap: 0;
+                padding: 15px;
             }
             
             .history {
@@ -164,11 +172,40 @@
             
             .display {
                 font-size: 2rem;
+                padding: 15px;
             }
             
             .row button {
-                padding: 15px;
-                font-size: 1.2rem;
+                padding: 12px 8px;
+                font-size: 1.1rem;
+                min-width: calc(25% - 9px);
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .calculator {
+                padding: 10px;
+                gap: 10px;
+            }
+            
+            .buttons {
+                gap: 8px;
+            }
+            
+            .row {
+                gap: 8px;
+            }
+            
+            .row button {
+                padding: 10px 5px;
+                font-size: 1rem;
+                min-width: calc(25% - 6px);
+            }
+            
+            .display {
+                font-size: 1.5rem;
+                padding: 12px;
+                min-height: 55px;
             }
         }
     </style>
@@ -178,15 +215,15 @@
         <div class="main">
             <div class="display" id="display">0</div>
             <div class="buttons">
-                <div class="row">
+                <div class="row" style="flex-wrap: wrap;">
                     <button class="operator" onclick="appendOperator('/')">÷</button>
                     <button class="operator" onclick="appendOperator('*')">×</button>
                     <button class="operator" onclick="appendOperator('-')">−</button>
                     <button class="operator" onclick="appendOperator('+')">+</button>
                     <button class="clear" onclick="clearDisplay()">C</button>
                     <button class="delete" onclick="deleteLast()">DEL</button>
-                    <button onclick="changeLanguage()" id="langBtn">EN</button>
-                    <button onclick="changeBackground()" id="themeBtn">主题</button>
+                    <button onclick="changeLanguage()" id="langBtn" style="min-width: 60px;">EN</button>
+                    <button onclick="changeBackground()" id="themeBtn" style="min-width: 60px;">主题</button>
                 </div>
                 <div class="row">
                     <button onclick="appendNumber('7')">7</button>
