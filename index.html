@@ -185,13 +185,14 @@
                     <button class="operator" onclick="appendOperator('+')">+</button>
                     <button class="clear" onclick="clearDisplay()">C</button>
                     <button class="delete" onclick="deleteLast()">DEL</button>
-                    <button onclick="changeBackground()">主题</button>
+                    <button onclick="changeLanguage()" id="langBtn">EN</button>
+                    <button onclick="changeBackground()" id="themeBtn">主题</button>
                 </div>
                 <div class="row">
                     <button onclick="appendNumber('7')">7</button>
                     <button onclick="appendNumber('8')">8</button>
                     <button onclick="appendNumber('9')">9</button>
-                    <button onclick="toggleHistory()">历史</button>
+                    <button onclick="toggleHistory()" id="historyBtn">历史</button>
                 </div>
                 <div class="row">
                     <button onclick="appendNumber('4')">4</button>
@@ -211,8 +212,8 @@
             </div>
         </div>
         <div class="history" id="history">
-            <h3>计算历史</h3>
-            <button onclick="clearHistory()" style="padding: 8px 12px; font-size: 0.9rem; margin-bottom: 10px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; word-wrap: break-word; overflow-wrap: break-word; box-sizing: border-box;">清除历史</button>
+            <h3 id="historyTitle">计算历史</h3>
+            <button onclick="clearHistory()" id="clearHistoryBtn" style="padding: 8px 12px; font-size: 0.9rem; margin-bottom: 10px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; word-wrap: break-word; overflow-wrap: break-word; box-sizing: border-box;">清除历史</button>
             <div id="historyList"></div>
         </div>
     </div>
@@ -286,15 +287,62 @@
         
         // 清除历史记录
         function clearHistory() {
-            if (confirm('确定要清除所有历史记录吗？')) {
+            const confirmMessage = currentLanguage === 'zh' ? '确定要清除所有历史记录吗？' : 'Are you sure you want to clear all history?';
+            if (confirm(confirmMessage)) {
                 history = [];
                 localStorage.removeItem('calculatorHistory');
                 updateHistoryDisplay();
             }
         }
         
+        // 语言切换
+        let currentLanguage = 'zh';
+        const translations = {
+            zh: {
+                theme: '主题',
+                history: '历史',
+                clearHistory: '清除历史',
+                confirmClear: '确定要清除所有历史记录吗？'
+            },
+            en: {
+                theme: 'Theme',
+                history: 'History',
+                clearHistory: 'Clear History',
+                confirmClear: 'Are you sure you want to clear all history?'
+            }
+        };
+        
+        function changeLanguage() {
+            currentLanguage = currentLanguage === 'zh' ? 'en' : 'zh';
+            updateInterfaceText();
+            saveLanguagePreference();
+        }
+        
+        function updateInterfaceText() {
+            const text = translations[currentLanguage];
+            document.getElementById('themeBtn').textContent = text.theme;
+            document.getElementById('langBtn').textContent = currentLanguage === 'zh' ? 'EN' : '中文';
+            document.getElementById('historyTitle').textContent = text.history;
+            document.getElementById('clearHistoryBtn').textContent = text.clearHistory;
+            document.getElementById('historyBtn').textContent = text.history;
+            document.documentElement.lang = currentLanguage === 'zh' ? 'zh-CN' : 'en';
+        }
+        
+        function saveLanguagePreference() {
+            localStorage.setItem('calculatorLanguage', currentLanguage);
+        }
+        
+        function loadLanguagePreference() {
+            const saved = localStorage.getItem('calculatorLanguage');
+            if (saved) {
+                currentLanguage = saved;
+                updateInterfaceText();
+            }
+        }
+        
         // 初始化
         loadHistory();
+        loadLanguagePreference();
         
         // 添加数字
         function appendNumber(number) {

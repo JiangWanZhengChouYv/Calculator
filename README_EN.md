@@ -1,6 +1,6 @@
 # Calculator
 
-A lightweight web-based calculator (version 1.1.1).
+A lightweight web-based calculator (version 1.1.2).
 
 `index.html` is the latest version of the interface in this repository - simply open it directly to use the calculator.
 
@@ -10,7 +10,8 @@ A lightweight web-based calculator (version 1.1.1).
 - Clear/Delete (CE / Backspace)
 - Calculation history: view and load past calculation results
 - **Clear History**: one-click to clear all calculation history
-- Multiple background themes: click the theme button to switch between different gradient backgrounds
+- **Multiple background themes**: click the theme button to switch between different gradient backgrounds
+- **Language switching**: toggle between Chinese and English interface
 - Clean responsive interface that works on desktop and mobile devices
 
 ## Quick Start
@@ -49,6 +50,7 @@ This project uses the MIT license.
 JiangWanZhengChouYv
 
 ## Version History
+- 1.1.2 — Added Chinese/English language switching function
 - 1.1.1 — Added clear history function
 - 1.1.0 — Added multiple background theme switching function
 - 1.0.4 — Fixed issue with history text exceeding boundaries
