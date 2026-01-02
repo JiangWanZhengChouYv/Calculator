@@ -8,10 +8,13 @@ A lightweight web-based calculator (version 1.1.2).
 - Basic arithmetic operations: addition, subtraction, multiplication, division
 - Decimal number support
 - Clear/Delete (CE / Backspace)
-- Calculation history: view and load past calculation results
+- Calculation history: view and load past calculation results (up to 10 records)
+- **History toggle**: one-click to show/hide history panel
 - **Clear History**: one-click to clear all calculation history
-- **Multiple background themes**: click the theme button to switch between different gradient backgrounds
+- **Local storage**: history and language preferences are automatically saved locally
+- **Multiple background themes**: 6 gradient background themes, click the theme button to switch
 - **Language switching**: toggle between Chinese and English interface
+- **Keyboard support**: support keyboard input for numbers, operators and control keys
 - Clean responsive interface that works on desktop and mobile devices
 
 ## Quick Start
@@ -36,11 +39,9 @@ A lightweight web-based calculator (version 1.1.2).
 
 ## File Structure (Brief)
 - index.html — Main interface (open directly to run)
-- Cal1.1.0 — Version 1.1.0 backup file
-- Cal1.0.4 — Version 1.0.4 backup file
-- Cal1.0.0 — Original version backup file
-- README.md — Project documentation (this file)
-- README_EN.md — English version of documentation
+- 历史版本/ — Contains backup files for Cal1.1.2, Cal1.1.0, Cal1.0.4, Cal1.0.0
+- README.md — Project documentation (Chinese version)
+- README_EN.md — Project documentation (English version)
 
 ## Contributing
 Issues and PRs are welcome:
