@@ -514,7 +514,7 @@
                 appendNumber(key);
             } else if (key === '.') {
                 appendDecimal();
-            } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+            } else if (key == '+' || key == '-' || key == '*' || key == '/') {
                 appendOperator(key);
             } else if (key === 'Enter' || key === '=') {
                 calculate();
