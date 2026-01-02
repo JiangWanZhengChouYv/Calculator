@@ -26,7 +26,11 @@ A lightweight web-based calculator (version 1.1.2).
      python -m http.server 8000
      # Then open http://localhost:8000/index.html in your browser
      ```
-
+3. Open webpage
+   - Directly enter in the browser address bar:
+     ```
+     jiangwanzhengchouyv.github.io/Calculator
+     ```
 ## Supported Browsers
 - Modern browsers: Chrome, Firefox, Edge, Safari (older browsers may have differences in some ES/HTML features)
 

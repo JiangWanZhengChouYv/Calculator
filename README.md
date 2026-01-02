@@ -25,7 +25,11 @@
      python -m http.server 8000
      # 然后在浏览器打开 http://localhost:8000/index.html
      ```
-
+3. 打开网页
+   - 直接在浏览器地址栏输入：
+     ```
+     jiangwanzhengchouyv.github.io/Calculator
+     ```
 ## 支持的浏览器
 - 现代浏览器：Chrome、Firefox、Edge、Safari（较旧浏览器在某些 ES/HTML 特性上可能有差异）
 
