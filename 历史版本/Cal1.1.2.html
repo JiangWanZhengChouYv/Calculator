@@ -70,8 +70,7 @@
         
         .row button {
             flex: 1;
-            min-width: calc(25% - 12px);
-            max-width: calc(25% - 12px);
+            min-width: 80px;
         }
         
         .history {
@@ -113,6 +112,9 @@
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            text-align: center;
         }
         
         button:hover {
@@ -222,19 +224,19 @@
                     <button class="operator" onclick="appendOperator('+')">+</button>
                     <button class="clear" onclick="clearDisplay()">C</button>
                     <button class="delete" onclick="deleteLast()">DEL</button>
-                    <button onclick="changeLanguage()" id="langBtn" style="min-width: 60px;">EN</button>
-                    <button onclick="changeBackground()" id="themeBtn" style="min-width: 60px;">主题</button>
+                    <button onclick="changeLanguage()" id="langBtn" style="min-width: 80px;">EN</button>
+                    <button onclick="changeBackground()" id="themeBtn" style="min-width: 80px;">主题</button>
                 </div>
                 <div class="row">
                     <button onclick="appendNumber('7')">7</button>
                     <button onclick="appendNumber('8')">8</button>
                     <button onclick="appendNumber('9')">9</button>
-                    <button onclick="toggleHistory()" id="historyBtn">历史</button>
                 </div>
                 <div class="row">
                     <button onclick="appendNumber('4')">4</button>
                     <button onclick="appendNumber('5')">5</button>
                     <button onclick="appendNumber('6')">6</button>
+                    <button onclick="toggleHistory()" id="historyBtn" style="min-width: 100px;">历史</button>
                 </div>
                 <div class="row">
                     <button onclick="appendNumber('1')">1</button>
@@ -512,7 +514,7 @@
                 appendNumber(key);
             } else if (key === '.') {
                 appendDecimal();
-            } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+            } else if (key == '+' || key == '-' || key == '*' || key == '/') {
                 appendOperator(key);
             } else if (key === 'Enter' || key === '=') {
                 calculate();
