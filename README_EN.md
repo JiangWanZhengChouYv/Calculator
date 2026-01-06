@@ -15,6 +15,12 @@ A lightweight web-based calculator (version 1.1.2).
 - **Multiple background themes**: 6 gradient background themes, click the theme button to switch
 - **Language switching**: toggle between Chinese and English interface
 - **Keyboard support**: support keyboard input for numbers, operators and control keys
+- **Smooth button animations**:
+  - Hover effect with lift and scale animation
+  - Multi-layered shadows for enhanced depth
+  - Press feedback when clicked
+  - Ripple effect spreading from the center
+- **Mouse-following highlight**: radial gradient highlight at mouse position when hovering, enhancing interaction experience
 - Clean responsive interface that works on desktop and mobile devices
 
 ## Quick Start
