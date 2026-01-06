@@ -110,22 +110,73 @@
             font-size: 1.5rem;
             padding: 20px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
             word-wrap: break-word;
             overflow-wrap: break-word;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0) scale(1);
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: 0;
+        }
+        
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        button::after {
+            content: '';
+            position: absolute;
+            top: var(--mouse-y);
+            left: var(--mouse-x);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        button:hover::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.2);
         }
         
         button:hover {
             background: #d5dbdb;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1);
         }
         
         button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+            transition: all 0.1s ease;
+        }
+        
+        button span {
+            position: relative;
+            z-index: 1;
         }
         
         .operator {
@@ -218,41 +269,41 @@
             <div class="display" id="display">0</div>
             <div class="buttons">
                 <div class="row" style="flex-wrap: wrap;">
-                    <button class="operator" onclick="appendOperator('/')">÷</button>
-                    <button class="operator" onclick="appendOperator('*')">×</button>
-                    <button class="operator" onclick="appendOperator('-')">−</button>
-                    <button class="operator" onclick="appendOperator('+')">+</button>
-                    <button class="clear" onclick="clearDisplay()">C</button>
-                    <button class="delete" onclick="deleteLast()">DEL</button>
-                    <button onclick="toggleHistory()" id="historyBtn" style="min-width: 80px;">历史</button>
-                    <button onclick="changeLanguage()" id="langBtn" style="min-width: 80px;">EN</button>
-                    <button onclick="changeBackground()" id="themeBtn" style="min-width: 80px;">主题</button>
+                    <button class="operator" onclick="appendOperator('/')"><span>÷</span></button>
+                    <button class="operator" onclick="appendOperator('*')"><span>×</span></button>
+                    <button class="operator" onclick="appendOperator('-')"><span>−</span></button>
+                    <button class="operator" onclick="appendOperator('+')"><span>+</span></button>
+                    <button class="clear" onclick="clearDisplay()"><span>C</span></button>
+                    <button class="delete" onclick="deleteLast()"><span>DEL</span></button>
+                    <button onclick="toggleHistory()" id="historyBtn" style="min-width: 80px;"><span>历史</span></button>
+                    <button onclick="changeLanguage()" id="langBtn" style="min-width: 80px;"><span>EN</span></button>
+                    <button onclick="changeBackground()" id="themeBtn" style="min-width: 80px;"><span>主题</span></button>
                 </div>
                 <div class="row">
-                    <button onclick="appendNumber('7')">7</button>
-                    <button onclick="appendNumber('8')">8</button>
-                    <button onclick="appendNumber('9')">9</button>
+                    <button onclick="appendNumber('7')"><span>7</span></button>
+                    <button onclick="appendNumber('8')"><span>8</span></button>
+                    <button onclick="appendNumber('9')"><span>9</span></button>
                 </div>
                 <div class="row">
-                    <button onclick="appendNumber('4')">4</button>
-                    <button onclick="appendNumber('5')">5</button>
-                    <button onclick="appendNumber('6')">6</button>
+                    <button onclick="appendNumber('4')"><span>4</span></button>
+                    <button onclick="appendNumber('5')"><span>5</span></button>
+                    <button onclick="appendNumber('6')"><span>6</span></button>
                 </div>
                 <div class="row">
-                    <button onclick="appendNumber('1')">1</button>
-                    <button onclick="appendNumber('2')">2</button>
-                    <button onclick="appendNumber('3')">3</button>
+                    <button onclick="appendNumber('1')"><span>1</span></button>
+                    <button onclick="appendNumber('2')"><span>2</span></button>
+                    <button onclick="appendNumber('3')"><span>3</span></button>
                 </div>
                 <div class="row">
-                    <button class="zero" onclick="appendNumber('0')">0</button>
-                    <button onclick="appendDecimal()">.</button>
-                    <button class="equal" onclick="calculate()">=</button>
+                    <button class="zero" onclick="appendNumber('0')"><span>0</span></button>
+                    <button onclick="appendDecimal()"><span>.</span></button>
+                    <button class="equal" onclick="calculate()"><span>=</span></button>
                 </div>
             </div>
         </div>
         <div class="history" id="history">
             <h3 id="historyTitle">计算历史</h3>
-            <button onclick="clearHistory()" id="clearHistoryBtn" style="padding: 8px 12px; font-size: 0.9rem; margin-bottom: 10px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; word-wrap: break-word; overflow-wrap: break-word; box-sizing: border-box;">清除历史</button>
+            <button onclick="clearHistory()" id="clearHistoryBtn" style="padding: 8px 12px; font-size: 0.9rem; margin-bottom: 10px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; word-wrap: break-word; overflow-wrap: break-word; box-sizing: border-box;"><span>清除历史</span></button>
             <div id="historyList"></div>
         </div>
     </div>
@@ -506,6 +557,21 @@
             resetOnNextInput = true;
         }
         
+        // 添加鼠标跟随效果
+        document.addEventListener('mousemove', function(event) {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                const rect = button.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                const xPercent = (x / rect.width) * 100;
+                const yPercent = (y / rect.height) * 100;
+                
+                button.style.setProperty('--mouse-x', `${xPercent}%`);
+                button.style.setProperty('--mouse-y', `${yPercent}%`);
+            });
+        });
+        
         // 添加键盘支持
         document.addEventListener('keydown', function(event) {
             const key = event.key;
@@ -514,7 +580,7 @@
                 appendNumber(key);
             } else if (key === '.') {
                 appendDecimal();
-            } else if (key == '+' || key == '-' || key == '*' || key == '/') {
+            } else if (key === '+' || key === '-' || key === '*' || key === '/') {
                 appendOperator(key);
             } else if (key === 'Enter' || key === '=') {
                 calculate();
