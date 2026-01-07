@@ -210,15 +210,40 @@
             flex: 2;
         }
         
-        /* 科学计算侧边栏样式 */
-        .scientific-sidebar {
+        /* 弹出式科学计算器样式 */
+        .scientific-popup {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: auto;
+            height: 100vh;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: flex-end;
+            pointer-events: none;
+        }
+        
+        .scientific-popup-content {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
+            border-radius: 15px 0 0 15px;
             padding: 15px;
             width: 120px;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
             display: flex;
             flex-direction: column;
             gap: 10px;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: auto;
+        }
+        
+        .scientific-popup.active {
+            display: flex;
+        }
+        
+        .scientific-popup.active .scientific-popup-content {
+            transform: translateX(0);
         }
         
         .scientific-buttons-container {
@@ -227,7 +252,7 @@
             gap: 8px;
         }
         
-        .scientific-sidebar button {
+        .scientific-popup button {
             background: #9b59b6;
             color: white;
             font-size: 1.1rem;
@@ -236,7 +261,7 @@
             flex: 1;
         }
         
-        .scientific-sidebar button:hover {
+        .scientific-popup button:hover {
             background: #8e44ad;
         }
         
@@ -268,7 +293,8 @@
                 display: none;
             }
             
-            .scientific-sidebar {
+            /* 移动端隐藏弹出式科学计算器 */
+            .scientific-popup {
                 display: none !important;
             }
             
@@ -313,9 +339,9 @@
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <!-- 科学计算侧边栏 -->
-        <div class="scientific-sidebar" id="scientificSidebar" style="display: none;">
+    <!-- 弹出式科学计算器面板 -->
+    <div class="scientific-popup" id="scientificPopup" style="display: none;">
+        <div class="scientific-popup-content">
             <div class="scientific-buttons-container">
                 <button onclick="scientificFunction('sin')"><span>sin</span></button>
                 <button onclick="scientificFunction('cos')"><span>cos</span></button>
@@ -337,7 +363,9 @@
                 <button onclick="scientificFunction('1/x')"><span>1/x</span></button>
             </div>
         </div>
-        
+    </div>
+    
+    <div class="calculator">
         <div class="main">
             <div class="display" id="display">0</div>
             <div class="mode-switch" style="display: flex; gap: 10px; margin-bottom: 15px;">
@@ -494,16 +522,16 @@
         // 模式切换
         function switchMode(mode) {
             currentMode = mode;
-            const scientificSidebar = document.getElementById('scientificSidebar');
+            const scientificPopup = document.getElementById('scientificPopup');
             const basicBtn = document.getElementById('basicModeBtn');
             const scientificBtn = document.getElementById('scientificModeBtn');
             
             if (mode === 'scientific') {
-                scientificSidebar.style.display = 'flex';
+                scientificPopup.classList.add('active');
                 basicBtn.classList.remove('active');
                 scientificBtn.classList.add('active');
             } else {
-                scientificSidebar.style.display = 'none';
+                scientificPopup.classList.remove('active');
                 basicBtn.classList.add('active');
                 scientificBtn.classList.remove('active');
             }
