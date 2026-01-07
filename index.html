@@ -210,40 +210,35 @@
             flex: 2;
         }
         
-        /* 弹出式科学计算器样式 */
-        .scientific-popup {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: auto;
-            height: 100vh;
-            z-index: 1000;
-            display: none;
+        /* 主容器样式 */
+        .app-container {
+            display: flex;
+            gap: 20px;
             align-items: center;
-            justify-content: flex-end;
-            pointer-events: none;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
         }
         
-        .scientific-popup-content {
+        /* 科学计算独立窗口样式 */
+        .scientific-window {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px 0 0 15px;
+            border-radius: 15px;
             padding: 15px;
             width: 120px;
-            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            pointer-events: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
         }
         
-        .scientific-popup.active {
-            display: flex;
+        .scientific-window-header {
+            margin-bottom: 15px;
+            text-align: center;
         }
         
-        .scientific-popup.active .scientific-popup-content {
-            transform: translateX(0);
+        .scientific-window-header h3 {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin: 0;
         }
         
         .scientific-buttons-container {
@@ -252,7 +247,7 @@
             gap: 8px;
         }
         
-        .scientific-popup button {
+        .scientific-window button {
             background: #9b59b6;
             color: white;
             font-size: 1.1rem;
@@ -261,7 +256,7 @@
             flex: 1;
         }
         
-        .scientific-popup button:hover {
+        .scientific-window button:hover {
             background: #8e44ad;
         }
         
@@ -282,6 +277,11 @@
         
         /* 响应式设计 */
         @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
             .calculator {
                 width: 100%;
                 flex-direction: column;
@@ -293,8 +293,8 @@
                 display: none;
             }
             
-            /* 移动端隐藏弹出式科学计算器 */
-            .scientific-popup {
+            /* 移动端隐藏科学计算器窗口 */
+            .scientific-window {
                 display: none !important;
             }
             
@@ -339,9 +339,13 @@
     </style>
 </head>
 <body>
-    <!-- 弹出式科学计算器面板 -->
-    <div class="scientific-popup" id="scientificPopup">
-        <div class="scientific-popup-content">
+    <!-- 主容器 -->
+    <div class="app-container">
+        <!-- 科学计算独立窗口 -->
+        <div class="scientific-window" id="scientificWindow" style="display: none;">
+            <div class="scientific-window-header">
+                <h3>科学计算器</h3>
+            </div>
             <div class="scientific-buttons-container">
                 <button onclick="scientificFunction('sin')"><span>sin</span></button>
                 <button onclick="scientificFunction('cos')"><span>cos</span></button>
@@ -363,54 +367,55 @@
                 <button onclick="scientificFunction('1/x')"><span>1/x</span></button>
             </div>
         </div>
-    </div>
-    
-    <div class="calculator">
-        <div class="main">
-            <div class="display" id="display">0</div>
-            <div class="mode-switch" style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <button id="basicModeBtn" onclick="switchMode('basic')" class="mode-btn active" style="padding: 8px 16px; font-size: 0.9rem; background: #3498db; color: white; border: none; border-radius: 20px; cursor: pointer;"><span>基础</span></button>
-                <button id="scientificModeBtn" onclick="switchMode('scientific')" class="mode-btn" style="padding: 8px 16px; font-size: 0.9rem; background: #ecf0f1; color: #2c3e50; border: none; border-radius: 20px; cursor: pointer;"><span>科学</span></button>
+        
+        <!-- 主计算器 -->
+        <div class="calculator">
+            <div class="main">
+                <div class="display" id="display">0</div>
+                <div class="mode-switch" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button id="basicModeBtn" onclick="switchMode('basic')" class="mode-btn active" style="padding: 8px 16px; font-size: 0.9rem; background: #3498db; color: white; border: none; border-radius: 20px; cursor: pointer;"><span>基础</span></button>
+                    <button id="scientificModeBtn" onclick="switchMode('scientific')" class="mode-btn" style="padding: 8px 16px; font-size: 0.9rem; background: #ecf0f1; color: #2c3e50; border: none; border-radius: 20px; cursor: pointer;"><span>科学</span></button>
+                </div>
+                <div class="buttons">
+                    <!-- 基础计算按钮区域 -->
+                    <div class="row" style="flex-wrap: wrap;">
+                        <button class="operator" onclick="appendOperator('/')"><span>÷</span></button>
+                        <button class="operator" onclick="appendOperator('*')"><span>×</span></button>
+                        <button class="operator" onclick="appendOperator('-')"><span>−</span></button>
+                        <button class="operator" onclick="appendOperator('+')"><span>+</span></button>
+                        <button class="clear" onclick="clearDisplay()"><span>C</span></button>
+                        <button class="delete" onclick="deleteLast()"><span>DEL</span></button>
+                        <button onclick="toggleHistory()" id="historyBtn" style="min-width: 80px;"><span>历史</span></button>
+                        <button onclick="changeLanguage()" id="langBtn" style="min-width: 80px;"><span>EN</span></button>
+                        <button onclick="changeBackground()" id="themeBtn" style="min-width: 80px;"><span>主题</span></button>
+                    </div>
+                    <div class="row">
+                        <button onclick="appendNumber('7')"><span>7</span></button>
+                        <button onclick="appendNumber('8')"><span>8</span></button>
+                        <button onclick="appendNumber('9')"><span>9</span></button>
+                    </div>
+                    <div class="row">
+                        <button onclick="appendNumber('4')"><span>4</span></button>
+                        <button onclick="appendNumber('5')"><span>5</span></button>
+                        <button onclick="appendNumber('6')"><span>6</span></button>
+                    </div>
+                    <div class="row">
+                        <button onclick="appendNumber('1')"><span>1</span></button>
+                        <button onclick="appendNumber('2')"><span>2</span></button>
+                        <button onclick="appendNumber('3')"><span>3</span></button>
+                    </div>
+                    <div class="row">
+                        <button class="zero" onclick="appendNumber('0')"><span>0</span></button>
+                        <button onclick="appendDecimal()"><span>.</span></button>
+                        <button class="equal" onclick="calculate()"><span>=</span></button>
+                    </div>
+                </div>
             </div>
-            <div class="buttons">
-                <!-- 基础计算按钮区域 -->
-                <div class="row" style="flex-wrap: wrap;">
-                    <button class="operator" onclick="appendOperator('/')"><span>÷</span></button>
-                    <button class="operator" onclick="appendOperator('*')"><span>×</span></button>
-                    <button class="operator" onclick="appendOperator('-')"><span>−</span></button>
-                    <button class="operator" onclick="appendOperator('+')"><span>+</span></button>
-                    <button class="clear" onclick="clearDisplay()"><span>C</span></button>
-                    <button class="delete" onclick="deleteLast()"><span>DEL</span></button>
-                    <button onclick="toggleHistory()" id="historyBtn" style="min-width: 80px;"><span>历史</span></button>
-                    <button onclick="changeLanguage()" id="langBtn" style="min-width: 80px;"><span>EN</span></button>
-                    <button onclick="changeBackground()" id="themeBtn" style="min-width: 80px;"><span>主题</span></button>
-                </div>
-                <div class="row">
-                    <button onclick="appendNumber('7')"><span>7</span></button>
-                    <button onclick="appendNumber('8')"><span>8</span></button>
-                    <button onclick="appendNumber('9')"><span>9</span></button>
-                </div>
-                <div class="row">
-                    <button onclick="appendNumber('4')"><span>4</span></button>
-                    <button onclick="appendNumber('5')"><span>5</span></button>
-                    <button onclick="appendNumber('6')"><span>6</span></button>
-                </div>
-                <div class="row">
-                    <button onclick="appendNumber('1')"><span>1</span></button>
-                    <button onclick="appendNumber('2')"><span>2</span></button>
-                    <button onclick="appendNumber('3')"><span>3</span></button>
-                </div>
-                <div class="row">
-                    <button class="zero" onclick="appendNumber('0')"><span>0</span></button>
-                    <button onclick="appendDecimal()"><span>.</span></button>
-                    <button class="equal" onclick="calculate()"><span>=</span></button>
-                </div>
+            <div class="history" id="history">
+                <h3 id="historyTitle">计算历史</h3>
+                <button onclick="clearHistory()" id="clearHistoryBtn" style="padding: 8px 12px; font-size: 0.9rem; margin-bottom: 10px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; word-wrap: break-word; overflow-wrap: break-word; box-sizing: border-box;"><span>清除历史</span></button>
+                <div id="historyList"></div>
             </div>
-        </div>
-        <div class="history" id="history">
-            <h3 id="historyTitle">计算历史</h3>
-            <button onclick="clearHistory()" id="clearHistoryBtn" style="padding: 8px 12px; font-size: 0.9rem; margin-bottom: 10px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; word-wrap: break-word; overflow-wrap: break-word; box-sizing: border-box;"><span>清除历史</span></button>
-            <div id="historyList"></div>
         </div>
     </div>
     
@@ -522,16 +527,16 @@
         // 模式切换
         function switchMode(mode) {
             currentMode = mode;
-            const scientificPopup = document.getElementById('scientificPopup');
+            const scientificWindow = document.getElementById('scientificWindow');
             const basicBtn = document.getElementById('basicModeBtn');
             const scientificBtn = document.getElementById('scientificModeBtn');
             
             if (mode === 'scientific') {
-                scientificPopup.classList.add('active');
+                scientificWindow.style.display = 'block';
                 basicBtn.classList.remove('active');
                 scientificBtn.classList.add('active');
             } else {
-                scientificPopup.classList.remove('active');
+                scientificWindow.style.display = 'none';
                 basicBtn.classList.add('active');
                 scientificBtn.classList.remove('active');
             }
