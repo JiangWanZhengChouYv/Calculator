@@ -210,20 +210,33 @@
             flex: 2;
         }
         
-        /* 科学计算按钮样式 */
-        .scientific-row {
+        /* 科学计算侧边栏样式 */
+        .scientific-sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .scientific-buttons-container {
+            display: flex;
+            flex-direction: column;
             gap: 8px;
         }
         
-        .scientific-row button {
+        .scientific-sidebar button {
             background: #9b59b6;
             color: white;
-            font-size: 1.2rem;
-            padding: 15px;
-            min-width: 70px;
+            font-size: 1.1rem;
+            padding: 12px;
+            min-width: auto;
+            flex: 1;
         }
         
-        .scientific-row button:hover {
+        .scientific-sidebar button:hover {
             background: #8e44ad;
         }
         
@@ -253,6 +266,10 @@
             
             .history {
                 display: none;
+            }
+            
+            .scientific-sidebar {
+                display: none !important;
             }
             
             .display {
@@ -297,6 +314,30 @@
 </head>
 <body>
     <div class="calculator">
+        <!-- 科学计算侧边栏 -->
+        <div class="scientific-sidebar" id="scientificSidebar" style="display: none;">
+            <div class="scientific-buttons-container">
+                <button onclick="scientificFunction('sin')"><span>sin</span></button>
+                <button onclick="scientificFunction('cos')"><span>cos</span></button>
+                <button onclick="scientificFunction('tan')"><span>tan</span></button>
+                <button onclick="scientificFunction('asin')"><span>asin</span></button>
+                <button onclick="scientificFunction('acos')"><span>acos</span></button>
+                <button onclick="scientificFunction('atan')"><span>atan</span></button>
+                <button onclick="scientificFunction('log')"><span>log</span></button>
+                <button onclick="scientificFunction('ln')"><span>ln</span></button>
+                <button onclick="scientificFunction('pow2')"><span>x²</span></button>
+                <button onclick="scientificFunction('pow3')"><span>x³</span></button>
+                <button onclick="scientificFunction('sqrt')"><span>√</span></button>
+                <button onclick="scientificFunction('cbrt')"><span>∛</span></button>
+                <button onclick="scientificFunction('exp')"><span>eˣ</span></button>
+                <button onclick="scientificFunction('pow10')"><span>10ˣ</span></button>
+                <button onclick="appendNumber('π')"><span>π</span></button>
+                <button onclick="appendNumber('e')"><span>e</span></button>
+                <button onclick="scientificFunction('factorial')"><span>x!</span></button>
+                <button onclick="scientificFunction('1/x')"><span>1/x</span></button>
+            </div>
+        </div>
+        
         <div class="main">
             <div class="display" id="display">0</div>
             <div class="mode-switch" style="display: flex; gap: 10px; margin-bottom: 15px;">
@@ -304,27 +345,6 @@
                 <button id="scientificModeBtn" onclick="switchMode('scientific')" class="mode-btn" style="padding: 8px 16px; font-size: 0.9rem; background: #ecf0f1; color: #2c3e50; border: none; border-radius: 20px; cursor: pointer;"><span>科学</span></button>
             </div>
             <div class="buttons">
-                <!-- 科学计算按钮区域 -->
-                <div class="row scientific-row" id="scientificButtons" style="display: none;">
-                    <button onclick="scientificFunction('sin')"><span>sin</span></button>
-                    <button onclick="scientificFunction('cos')"><span>cos</span></button>
-                    <button onclick="scientificFunction('tan')"><span>tan</span></button>
-                    <button onclick="scientificFunction('asin')"><span>asin</span></button>
-                    <button onclick="scientificFunction('acos')"><span>acos</span></button>
-                    <button onclick="scientificFunction('atan')"><span>atan</span></button>
-                    <button onclick="scientificFunction('log')"><span>log</span></button>
-                    <button onclick="scientificFunction('ln')"><span>ln</span></button>
-                    <button onclick="scientificFunction('pow2')"><span>x²</span></button>
-                    <button onclick="scientificFunction('pow3')"><span>x³</span></button>
-                    <button onclick="scientificFunction('sqrt')"><span>√</span></button>
-                    <button onclick="scientificFunction('cbrt')"><span>∛</span></button>
-                    <button onclick="scientificFunction('exp')"><span>eˣ</span></button>
-                    <button onclick="scientificFunction('pow10')"><span>10ˣ</span></button>
-                    <button onclick="appendNumber('π')"><span>π</span></button>
-                    <button onclick="appendNumber('e')"><span>e</span></button>
-                    <button onclick="scientificFunction('factorial')"><span>x!</span></button>
-                    <button onclick="scientificFunction('1/x')"><span>1/x</span></button>
-                </div>
                 <!-- 基础计算按钮区域 -->
                 <div class="row" style="flex-wrap: wrap;">
                     <button class="operator" onclick="appendOperator('/')"><span>÷</span></button>
@@ -474,16 +494,16 @@
         // 模式切换
         function switchMode(mode) {
             currentMode = mode;
-            const scientificButtons = document.getElementById('scientificButtons');
+            const scientificSidebar = document.getElementById('scientificSidebar');
             const basicBtn = document.getElementById('basicModeBtn');
             const scientificBtn = document.getElementById('scientificModeBtn');
             
             if (mode === 'scientific') {
-                scientificButtons.style.display = 'flex';
+                scientificSidebar.style.display = 'flex';
                 basicBtn.classList.remove('active');
                 scientificBtn.classList.add('active');
             } else {
-                scientificButtons.style.display = 'none';
+                scientificSidebar.style.display = 'none';
                 basicBtn.classList.add('active');
                 scientificBtn.classList.remove('active');
             }
