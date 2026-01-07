@@ -1,11 +1,18 @@
 # Calculator
 
-A lightweight web-based calculator (version 1.1.2).
+A lightweight web-based calculator (version 1.2.0).
 
 `index.html` is the latest version of the interface in this repository - simply open it directly to use the calculator.
 
 ## Features
 - Basic arithmetic operations: addition, subtraction, multiplication, division
+- **Scientific calculator functions**:
+  - Trigonometric functions: sin, cos, tan, asin, acos, atan
+  - Logarithmic functions: log (common logarithm), ln (natural logarithm)
+  - Exponential functions: x², x³, eˣ, 10ˣ
+  - Root functions: square root √, cube root ∛
+  - Other functions: reciprocal 1/x, factorial x!
+  - Mathematical constants: π (pi), e (Euler's number)
 - Decimal number support
 - Clear/Delete (CE / Backspace)
 - Calculation history: view and load past calculation results (up to 10 records)
@@ -15,6 +22,7 @@ A lightweight web-based calculator (version 1.1.2).
 - **Multiple background themes**: 6 gradient background themes, click the theme button to switch
 - **Language switching**: toggle between Chinese and English interface
 - **Keyboard support**: support keyboard input for numbers, operators and control keys
+- **Mode switching**: one-click toggle between basic and scientific modes
 - **Smooth button animations**:
   - Hover effect with lift and scale animation
   - Multi-layered shadows for enhanced depth
@@ -61,6 +69,7 @@ This project uses the MIT license.
 JiangWanZhengChouYv
 
 ## Version History
+- 1.2.0 — Added scientific calculator functions, including trigonometric, logarithmic, exponential, and root functions
 - 1.1.2 — Added Chinese/English language switching function
 - 1.1.1 — Added clear history function
 - 1.1.0 — Added multiple background theme switching function

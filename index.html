@@ -210,6 +210,38 @@
             flex: 2;
         }
         
+        /* 科学计算按钮样式 */
+        .scientific-row {
+            gap: 8px;
+        }
+        
+        .scientific-row button {
+            background: #9b59b6;
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px;
+            min-width: 70px;
+        }
+        
+        .scientific-row button:hover {
+            background: #8e44ad;
+        }
+        
+        /* 模式切换按钮样式 */
+        .mode-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .mode-btn.active {
+            background: #3498db !important;
+            color: white !important;
+        }
+        
+        .mode-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
         /* 响应式设计 */
         @media (max-width: 768px) {
             .calculator {
@@ -267,7 +299,33 @@
     <div class="calculator">
         <div class="main">
             <div class="display" id="display">0</div>
+            <div class="mode-switch" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button id="basicModeBtn" onclick="switchMode('basic')" class="mode-btn active" style="padding: 8px 16px; font-size: 0.9rem; background: #3498db; color: white; border: none; border-radius: 20px; cursor: pointer;"><span>基础</span></button>
+                <button id="scientificModeBtn" onclick="switchMode('scientific')" class="mode-btn" style="padding: 8px 16px; font-size: 0.9rem; background: #ecf0f1; color: #2c3e50; border: none; border-radius: 20px; cursor: pointer;"><span>科学</span></button>
+            </div>
             <div class="buttons">
+                <!-- 科学计算按钮区域 -->
+                <div class="row scientific-row" id="scientificButtons" style="display: none;">
+                    <button onclick="scientificFunction('sin')"><span>sin</span></button>
+                    <button onclick="scientificFunction('cos')"><span>cos</span></button>
+                    <button onclick="scientificFunction('tan')"><span>tan</span></button>
+                    <button onclick="scientificFunction('asin')"><span>asin</span></button>
+                    <button onclick="scientificFunction('acos')"><span>acos</span></button>
+                    <button onclick="scientificFunction('atan')"><span>atan</span></button>
+                    <button onclick="scientificFunction('log')"><span>log</span></button>
+                    <button onclick="scientificFunction('ln')"><span>ln</span></button>
+                    <button onclick="scientificFunction('pow2')"><span>x²</span></button>
+                    <button onclick="scientificFunction('pow3')"><span>x³</span></button>
+                    <button onclick="scientificFunction('sqrt')"><span>√</span></button>
+                    <button onclick="scientificFunction('cbrt')"><span>∛</span></button>
+                    <button onclick="scientificFunction('exp')"><span>eˣ</span></button>
+                    <button onclick="scientificFunction('pow10')"><span>10ˣ</span></button>
+                    <button onclick="appendNumber('π')"><span>π</span></button>
+                    <button onclick="appendNumber('e')"><span>e</span></button>
+                    <button onclick="scientificFunction('factorial')"><span>x!</span></button>
+                    <button onclick="scientificFunction('1/x')"><span>1/x</span></button>
+                </div>
+                <!-- 基础计算按钮区域 -->
                 <div class="row" style="flex-wrap: wrap;">
                     <button class="operator" onclick="appendOperator('/')"><span>÷</span></button>
                     <button class="operator" onclick="appendOperator('*')"><span>×</span></button>
@@ -318,6 +376,7 @@
         let historyDiv = document.getElementById('history');
         let historyList = document.getElementById('historyList');
         let currentBackgroundIndex = 0;
+        let currentMode = 'basic'; // 'basic' 或 'scientific'
         const backgrounds = [
             'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', // 紫色
             'linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%)', // 蓝色
@@ -392,13 +451,17 @@
                 theme: '主题',
                 history: '历史',
                 clearHistory: '清除历史',
-                confirmClear: '确定要清除所有历史记录吗？'
+                confirmClear: '确定要清除所有历史记录吗？',
+                basic: '基础',
+                scientific: '科学'
             },
             en: {
                 theme: 'Theme',
                 history: 'History',
                 clearHistory: 'Clear History',
-                confirmClear: 'Are you sure you want to clear all history?'
+                confirmClear: 'Are you sure you want to clear all history?',
+                basic: 'Basic',
+                scientific: 'Scientific'
             }
         };
         
@@ -408,6 +471,26 @@
             saveLanguagePreference();
         }
         
+        // 模式切换
+        function switchMode(mode) {
+            currentMode = mode;
+            const scientificButtons = document.getElementById('scientificButtons');
+            const basicBtn = document.getElementById('basicModeBtn');
+            const scientificBtn = document.getElementById('scientificModeBtn');
+            
+            if (mode === 'scientific') {
+                scientificButtons.style.display = 'flex';
+                basicBtn.classList.remove('active');
+                scientificBtn.classList.add('active');
+            } else {
+                scientificButtons.style.display = 'none';
+                basicBtn.classList.add('active');
+                scientificBtn.classList.remove('active');
+            }
+            
+            updateInterfaceText();
+        }
+        
         function updateInterfaceText() {
             const text = translations[currentLanguage];
             document.getElementById('themeBtn').textContent = text.theme;
@@ -415,6 +498,8 @@
             document.getElementById('historyTitle').textContent = text.history;
             document.getElementById('clearHistoryBtn').textContent = text.clearHistory;
             document.getElementById('historyBtn').textContent = text.history;
+            document.getElementById('basicModeBtn').textContent = text.basic;
+            document.getElementById('scientificModeBtn').textContent = text.scientific;
             document.documentElement.lang = currentLanguage === 'zh' ? 'zh-CN' : 'en';
         }
         
@@ -441,13 +526,125 @@
                 resetOnNextInput = false;
             }
             
-            if (display.textContent === '0' && number !== '0') {
+            if (number === 'π') {
+                display.textContent = Math.PI;
+                currentInput = Math.PI.toString();
+                resetOnNextInput = true;
+            } else if (number === 'e') {
+                display.textContent = Math.E;
+                currentInput = Math.E.toString();
+                resetOnNextInput = true;
+            } else if (display.textContent === '0' && number !== '0') {
                 display.textContent = number;
+                currentInput = number;
             } else if (display.textContent !== '0') {
                 display.textContent += number;
+                currentInput = display.textContent;
+            }
+        }
+        
+        // 科学计算功能
+        function scientificFunction(func) {
+            const value = parseFloat(currentInput);
+            let result;
+            let expression;
+            
+            switch(func) {
+                case 'sin':
+                    result = Math.sin(value);
+                    expression = `sin(${value})`;
+                    break;
+                case 'cos':
+                    result = Math.cos(value);
+                    expression = `cos(${value})`;
+                    break;
+                case 'tan':
+                    result = Math.tan(value);
+                    expression = `tan(${value})`;
+                    break;
+                case 'asin':
+                    result = Math.asin(value);
+                    expression = `asin(${value})`;
+                    break;
+                case 'acos':
+                    result = Math.acos(value);
+                    expression = `acos(${value})`;
+                    break;
+                case 'atan':
+                    result = Math.atan(value);
+                    expression = `atan(${value})`;
+                    break;
+                case 'log':
+                    result = Math.log10(value);
+                    expression = `log(${value})`;
+                    break;
+                case 'ln':
+                    result = Math.log(value);
+                    expression = `ln(${value})`;
+                    break;
+                case 'pow2':
+                    result = Math.pow(value, 2);
+                    expression = `${value}²`;
+                    break;
+                case 'pow3':
+                    result = Math.pow(value, 3);
+                    expression = `${value}³`;
+                    break;
+                case 'sqrt':
+                    result = Math.sqrt(value);
+                    expression = `√${value}`;
+                    break;
+                case 'cbrt':
+                    result = Math.cbrt(value);
+                    expression = `∛${value}`;
+                    break;
+                case 'exp':
+                    result = Math.exp(value);
+                    expression = `e^${value}`;
+                    break;
+                case 'pow10':
+                    result = Math.pow(10, value);
+                    expression = `10^${value}`;
+                    break;
+                case 'factorial':
+                    result = factorial(value);
+                    expression = `${value}!`;
+                    break;
+                case '1/x':
+                    result = 1 / value;
+                    expression = `1/${value}`;
+                    break;
+                default:
+                    return;
             }
             
-            currentInput = display.textContent;
+            // 处理结果
+            result = Number.isInteger(result) ? result : result.toFixed(10).replace(/\.?0+$/, '');
+            
+            // 更新显示
+            display.textContent = result.toString();
+            currentInput = result.toString();
+            
+            // 添加到历史
+            history.unshift({ expression: expression, result: result.toString() });
+            if (history.length > 10) {
+                history.pop();
+            }
+            saveHistory();
+            updateHistoryDisplay();
+            
+            resetOnNextInput = true;
+        }
+        
+        // 阶乘函数
+        function factorial(n) {
+            if (n < 0 || !Number.isInteger(n)) {
+                return '错误';
+            }
+            if (n === 0 || n === 1) {
+                return 1;
+            }
+            return n * factorial(n - 1);
         }
         
         // 添加小数点
